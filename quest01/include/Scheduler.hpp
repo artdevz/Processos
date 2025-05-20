@@ -22,6 +22,7 @@ public:
 
 private:
     int quantum;
+    int contextSwitches = 1;
     std::vector<Process> processes;
     void firstComeFirstServe();
     void shortestJobFirst();

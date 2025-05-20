@@ -35,9 +35,10 @@ void Scheduler::firstComeFirstServe() {
     int time = 0;
 
     for (auto& p : processes) {
-        std::cout << "Processo " << p.pid << " chegou em Tempo " << p.arrivalTime << " com Burst de " << p.burstTime << "\n";
+        std::cout << "Processo " << p.pid << " chegou em Tempo " << p.arrivalTime << " com Burst de " << p.burstTime << " e executou em " << time << "\n";
         time += p.burstTime;
         std::cout << "Processo " << p.pid << " finalizado no Tempo " << time << ".\n";
+        time += contextSwitches;
     }
 
     std::cout << "Todos os processos foram executados!\n";
@@ -69,11 +70,11 @@ void Scheduler::shortestJobFirst() {
 
         std::cout << "Processo " << processes[indice].pid
                   << " chegou em Tempo " << processes[indice].arrivalTime
-                  << " com Burst de " << processes[indice].burstTime << "\n";
+                  << " com Burst de " << processes[indice].burstTime << " e executou em " << current_time << " \n";
         std::cout << "Processo " << processes[indice].pid
                   << " finalizado no Tempo " << (current_time + processes[indice].burstTime) << ".\n";
 
-        current_time += processes[indice].burstTime;
+        current_time += processes[indice].burstTime + contextSwitches;
         done[indice] = true;
         completed++;
     }

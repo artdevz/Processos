@@ -1,5 +1,5 @@
 #include "Scheduler.hpp"
-
+#include <limits>
 Scheduler::Scheduler(int quantum) : quantum(quantum) {}
 
 void Scheduler::addProcess(int pid, int burstTime, int arrivalTime) {
@@ -43,46 +43,43 @@ void Scheduler::firstComeFirstServe() {
     std::cout << "Todos os processos foram executados!\n";
 }
 
-void Scheduler::shortestJobFirst(){
-    int time = 0;
-
-    int n ;
-    printf("Processos que tem");
-    scanf("%d" , &n);
-
-    Process p[n];
-
-    for (int i = 0; i < n; i++){
-        p[i].pid = i + 1;
-        printf("Processo", p[i].pid);
-        scanf("%d %d", &p[i].arrivalTime, &p[i].burstTime);
-    }
-
+void Scheduler::shortestJobFirst() {
+    int n = processes.size();
     int completed = 0;
     int current_time = 0;
+    std::vector<bool> done(n, false);
 
-    while (completed < n)
-    {
-        int indice = 0;
-        int mini_burst = 0;
+    while (completed < n) {
+        int indice = -1;
+        int mini_burst = std::numeric_limits<int>::max();;
 
-        for( int i = 0; i < n ; i++){
-            if (p[i].done && p[i].arrivalTime <= current_time){
-                if(p[i].burstTime < mini_burst){
-                    mini_burst = p[i].burstTime;
+        for (int i = 0; i < n; i++) {
+            if (!done[i] && processes[i].arrivalTime <= current_time) {
+                if (processes[i].burstTime < mini_burst) {
+                    mini_burst = processes[i].burstTime;
                     indice = i;
                 }
             }
         }
 
-        if (indice == 0){
-            current_time ++;
+        if (indice == -1) {
+            current_time++;
             continue;
         }
-        
+
+        std::cout << "Processo " << processes[indice].pid
+                  << " chegou em Tempo " << processes[indice].arrivalTime
+                  << " com Burst de " << processes[indice].burstTime << "\n";
+        std::cout << "Processo " << processes[indice].pid
+                  << " finalizado no Tempo " << (current_time + processes[indice].burstTime) << ".\n";
+
+        current_time += processes[indice].burstTime;
+        done[indice] = true;
+        completed++;
     }
 
-    }
+    std::cout << "Todos os processos foram executados!\n";
+}
 
 void Scheduler::roundRobin() {
     std::cout << "[RR executado com quantum = " << quantum << "]\n";

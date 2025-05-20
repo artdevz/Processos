@@ -60,32 +60,29 @@ void Scheduler::shortestJobFirst(){
 
     int completed = 0;
     int current_time = 0;
-while (completed < n)
-{
-    int indice = 0;
-    int mini_burst = 0;
 
-    for( int i = 0; i < n ; i++){
-        if (!p[i].done && p[i].arrivalTime <= current_time){
-            if(p[i].burstTime < mini_burst){
-                mini_burst = p[i].burstTime;
-                indice = i;
+    while (completed < n)
+    {
+        int indice = 0;
+        int mini_burst = 0;
+
+        for( int i = 0; i < n ; i++){
+            if (p[i].done && p[i].arrivalTime <= current_time){
+                if(p[i].burstTime < mini_burst){
+                    mini_burst = p[i].burstTime;
+                    indice = i;
+                }
             }
         }
+
+        if (indice == 0){
+            current_time ++;
+            continue;
+        }
+        
     }
 
-    if (indice == 0){
-        current_time ++;
-        continue;
     }
-    
-}
-
-}
-
-void Scheduler::shortestJobFirst() {
-    std::cout << "[SJF executado]\n";
-}
 
 void Scheduler::roundRobin() {
     std::cout << "[RR executado com quantum = " << quantum << "]\n";

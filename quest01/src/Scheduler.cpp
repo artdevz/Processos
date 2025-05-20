@@ -3,7 +3,13 @@
 Scheduler::Scheduler(int quantum) : quantum(quantum) {}
 
 void Scheduler::addProcess(int pid, int burstTime, int arrivalTime) {
-    processes.push_back(Process(pid, burstTime, arrivalTime));
+    Process p;
+    p.pid = pid;
+    p.burstTime = burstTime;
+    p.arrivalTime = arrivalTime;
+    p.done = false;
+
+    processes.push_back(p);
 }
 
 void Scheduler::run(int algorithm) {

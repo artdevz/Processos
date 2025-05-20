@@ -78,6 +78,7 @@ while (completed < n)
         current_time ++;
         continue;
     }
+    
 }
 
 }

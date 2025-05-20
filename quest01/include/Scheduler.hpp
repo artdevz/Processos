@@ -10,6 +10,8 @@ struct Process {
     int burstTime;
     int arrivalTime;
     int remainingTime; // RR
+
+    Process(int p, int b, int a) : pid(p), burstTime(b), arrivalTime(a) {}
 };
 
 class Scheduler {

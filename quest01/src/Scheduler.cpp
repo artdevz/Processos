@@ -2,7 +2,9 @@
 
 Scheduler::Scheduler(int quantum) : quantum(quantum) {}
 
-void Scheduler::addProcess(int pid, int burstTime, int arrivalTime) {}
+void Scheduler::addProcess(int pid, int burstTime, int arrivalTime) {
+    processes.push_back(Process(pid, burstTime, arrivalTime));
+}
 
 void Scheduler::run(int algorithm) {
     switch (algorithm) {
@@ -24,7 +26,15 @@ void Scheduler::run(int algorithm) {
 }
 
 void Scheduler::firstComeFirstServe() {
-    std::cout << "[FCFS executado]\n";
+    int time = 0;
+
+    for (auto& p : processes) {
+        std::cout << "Processo " << p.pid << " chegou em Tempo " << p.arrivalTime << " com Burst de " << p.burstTime << "\n";
+        time += p.burstTime;
+        std::cout << "Processo " << p.pid << " finalizado no Tempo " << time << ".\n";
+    }
+
+    std::cout << "Todos os processos foram executados!\n";
 }
 
 void Scheduler::shortestJobFirst() {

@@ -26,6 +26,6 @@ int main() {
     int current_time = 0;
 
     for( int i = 0; i < n ; i++){
-        if ( &)
+        if (!p[i].done && p[i].arrivalTime)
     }
 }

@@ -10,8 +10,12 @@ struct Process {
     int burstTime;
     int arrivalTime;
     int remainingTime; // RR
+<<<<<<< HEAD
 
     Process(int p, int b, int a) : pid(p), burstTime(b), arrivalTime(a) {}
+=======
+    bool done
+>>>>>>> bb939ef (Feito coisas)
 };
 
 class Scheduler {

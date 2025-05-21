@@ -7,6 +7,7 @@ void Scheduler::addProcess(int pid, int burstTime, int arrivalTime) {
     p.pid = pid;
     p.burstTime = burstTime;
     p.arrivalTime = arrivalTime;
+    p.remainingTime = burstTime;
     p.done = false;
 
     processes.push_back(p);
@@ -24,6 +25,7 @@ void Scheduler::run(int algorithm) {
             break;
         case 3: // Round Robin
             std::cout << "Algoritmo Round Robin!" << std::endl;
+            std::cout << "Quantum: " << quantum << std::endl;
             roundRobin();
             break;
         default:
@@ -35,9 +37,9 @@ void Scheduler::firstComeFirstServe() {
     int time = 0;
 
     for (auto& p : processes) {
-        std::cout << "Processo " << p.pid << " chegou em Tempo " << p.arrivalTime << " com Burst de " << p.burstTime << " e executou em " << time << "\n";
+        std::cout << "[" << time << "]: Processo " << p.pid << " chegou em Tempo " << p.arrivalTime << " com Burst de " << p.burstTime << std::endl;
         time += p.burstTime;
-        std::cout << "Processo " << p.pid << " finalizado no Tempo " << time << ".\n";
+        std::cout << "[" << time << "]: Processo " << p.pid << " finalizou!\n";
         time += contextSwitches;
     }
 
@@ -68,11 +70,11 @@ void Scheduler::shortestJobFirst() {
             continue;
         }
 
-        std::cout << "Processo " << processes[indice].pid
+        std::cout << "[" << current_time << "]: Processo " << processes[indice].pid
                   << " chegou em Tempo " << processes[indice].arrivalTime
-                  << " com Burst de " << processes[indice].burstTime << " e executou em " << current_time << " \n";
-        std::cout << "Processo " << processes[indice].pid
-                  << " finalizado no Tempo " << (current_time + processes[indice].burstTime) << ".\n";
+                  << " com Burst de " << processes[indice].burstTime << " \n";
+        std::cout << "[" << (current_time + processes[indice].burstTime) << "]: Processo " << processes[indice].pid
+                  << " finalizou.\n";
 
         current_time += processes[indice].burstTime + contextSwitches;
         done[indice] = true;
@@ -83,7 +85,30 @@ void Scheduler::shortestJobFirst() {
 }
 
 void Scheduler::roundRobin() {
-    std::cout << "[RR executado com quantum = " << quantum << "]\n";
+    int time = 0;
+
+    while (!processes.empty()) {
+        auto&p = processes.front();
+        std::cout << "[" << time << "]: Processo " << p.pid << " chegou em Tempo " << p.arrivalTime << " com Burst de " << p.burstTime << " e resta " << p.remainingTime << std::endl;
+        p.remainingTime -= quantum;
+
+        if (p.remainingTime <= 0) {
+            time += quantum + p.remainingTime;
+            std::cout << "[" << time << "]: Processo " << p.pid << " finalizou!\n";
+            processes.erase(processes.begin());
+            time += contextSwitches;
+            continue;
+        }
+
+        time += quantum;
+        std::cout << "[" << time << "]: Processo " << p.pid << " teve seu Quantum esgotado restando: " << p.remainingTime << std::endl;
+        std::cout << "[" << time << "]: Processo " << p.pid << " está sendo deslocado pro final da fila\n";
+        processes.push_back(processes.front());
+        processes.erase(processes.begin());
+        time += contextSwitches;
+    }
+
+    std::cout << "Todos os processos foram executados!\n";
 }
 
 void Scheduler::printQueue(const std::queue<Process>& q) {

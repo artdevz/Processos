@@ -1,13 +1,22 @@
 #include <iostream>
 #include <random>
+#include <cstdlib>
 #include "Scheduler.hpp"
 
-int main() {
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        std::cerr << "Args: ./quest01 <quantum>\n";
+        return 1;
+    }
+
+    int quantum = std::atoi(argv[1]);
     std::cout << "Questão 1 (C++)!" << std::endl;
-    Scheduler scheduler(50); // Equilíbrio
+    
+    // 50 = Equilíbrio
     // 80 = Fluído
     // < 30 = Overhead
     // > 100 = Pouca alternância
+    Scheduler scheduler(quantum); 
 
     std::random_device rd;
     std::mt19937 gen(rd());

@@ -1,5 +1,7 @@
-#include "Scheduler.hpp"
 #include <limits>
+#include <algorithm>
+#include "Scheduler.hpp"
+
 Scheduler::Scheduler(int quantum) : quantum(quantum) {}
 
 void Scheduler::addProcess(int pid, int burstTime, int arrivalTime) {
@@ -14,17 +16,21 @@ void Scheduler::addProcess(int pid, int burstTime, int arrivalTime) {
 }
 
 void Scheduler::run(int algorithm) {
+    std::sort(processes.begin(), processes.end(), [](const Process& a, const Process& b) {
+        return a.arrivalTime < b.arrivalTime;
+    });
+
     switch (algorithm) {
         case 1: // FCFS
-            std::cout << "Algoritmo First Come First Serve!" << std::endl;
+            std::cout << "\nAlgoritmo First Come First Serve!" << std::endl;
             firstComeFirstServe();
             break;
         case 2: // SJF
-            std::cout << "Algoritmo Shortest Job First!" << std::endl;
+            std::cout << "\nAlgoritmo Shortest Job First!" << std::endl;
             shortestJobFirst();
             break;
         case 3: // Round Robin
-            std::cout << "Algoritmo Round Robin!" << std::endl;
+            std::cout << "\nAlgoritmo Round Robin!" << std::endl;
             std::cout << "Quantum: " << quantum << std::endl;
             roundRobin();
             break;
@@ -37,6 +43,8 @@ void Scheduler::firstComeFirstServe() {
     int time = 0;
 
     for (auto& p : processes) {
+        if (time < p.arrivalTime) time = p.arrivalTime;
+
         std::cout << "[" << time << "]: Processo " << p.pid << " chegou em Tempo " << p.arrivalTime << " com Burst de " << p.burstTime << std::endl;
         time += p.burstTime;
         std::cout << "[" << time << "]: Processo " << p.pid << " finalizou!\n";
@@ -70,6 +78,8 @@ void Scheduler::shortestJobFirst() {
             continue;
         }
 
+        if (current_time < processes[indice].arrivalTime) current_time = processes[indice].arrivalTime;
+
         std::cout << "[" << current_time << "]: Processo " << processes[indice].pid
                   << " chegou em Tempo " << processes[indice].arrivalTime
                   << " com Burst de " << processes[indice].burstTime << " \n";
@@ -89,6 +99,9 @@ void Scheduler::roundRobin() {
 
     while (!processes.empty()) {
         auto&p = processes.front();
+
+        if (time < p.arrivalTime) time = p.arrivalTime;
+
         std::cout << "[" << time << "]: Processo " << p.pid << " chegou em Tempo " << p.arrivalTime << " com Burst de " << p.burstTime << " e resta " << p.remainingTime << std::endl;
         p.remainingTime -= quantum;
 

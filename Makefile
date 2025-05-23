@@ -12,7 +12,7 @@ Q3_INC = quest03/include
 # Arquivos fonte
 Q1_SRC = quest01/src/main.cpp quest01/src/Scheduler.cpp
 Q2_SRC = quest02/src/main.c
-Q3_SRC = quest03/src/main.c
+Q3_SRC = quest03/src/main.cpp
 
 # Objetos com nomes distintos
 Q1_OBJ = $(OBJ_DIR)/quest01_main.o $(OBJ_DIR)/Scheduler.o
@@ -26,7 +26,7 @@ Q3_EXE = $(BIN_DIR)/quest03
 
 # Flags
 CFLAGS = -Wall -Wextra -pthread
-CXXFLAGS = -Wall -Wextra -std=c++17 -I$(Q1_INC)
+CXXFLAGS = -Wall -Wextra -std=c++17 -I$(Q1_INC) -I$(Q3_INC)
 
 .PHONY: all clean
 
@@ -54,14 +54,14 @@ $(Q2_OBJ): $(Q2_SRC)
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Compila Questão 3 (C)
+# Compila Questão 3 (C++)
 $(Q3_EXE): $(Q3_OBJ)
 	@mkdir -p $(BIN_DIR)
-	$(CC) $(CFLAGS) $(Q3_OBJ) -o $@
+	$(CXX) $(Q3_OBJ) -o $@
 
 $(Q3_OBJ): $(Q3_SRC)
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Limpa todos os binários e objetos
 clean:

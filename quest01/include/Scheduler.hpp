@@ -22,6 +22,7 @@ struct SchedulingMetrics {
 class Scheduler {
 
 public:
+    std::vector<SchedulingMetrics> metrics;
     Scheduler(int);
     void addProcess(int, int, int);
     void run(int);
@@ -29,8 +30,7 @@ public:
 private:
     int quantum;
     int contextSwitches = 1;
-    std::vector<Process> processes;
-    std::vector<SchedulingMetrics> metrics;
+    std::vector<Process> processes;    
     void firstComeFirstServe();
     void shortestJobFirst();
     void roundRobin();

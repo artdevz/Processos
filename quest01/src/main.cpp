@@ -3,6 +3,18 @@
 #include <cstdlib>
 #include "Scheduler.hpp"
 
+void plotAsciiBar(const std::string& title, const std::vector<std::pair<std::string, double>>& data) {
+    std::cout << "\n" << title << "\n";
+    for (const auto& d : data) {
+        std::cout << d.first << " | ";
+        int barLength = static_cast<int>(d.second / 2); // Ajusta escala
+        for (int i = 0; i < barLength; ++i) {
+            std::cout << "#";
+        }
+        std::cout << " (" << d.second << ")\n";
+    }
+}
+
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         std::cerr << "Args: ./quest01 <quantum>\n";
@@ -12,10 +24,6 @@ int main(int argc, char* argv[]) {
     int quantum = std::atoi(argv[1]);
     std::cout << "Questão 1 (C++)!" << std::endl;
     
-    // 50 = Equilíbrio
-    // 80 = Fluído
-    // < 30 = Overhead
-    // > 100 = Pouca alternância
     Scheduler scheduler(quantum); 
 
     std::random_device rd;
@@ -42,6 +50,28 @@ int main(int argc, char* argv[]) {
     scheduler.run(1);
     scheduler.run(2);
     scheduler.run(3);
+
+    std::vector<std::pair<std::string, double>> waitData = {
+        {"FCFS", scheduler.metrics[0].averageWaitingTime},
+        {"SJF ", scheduler.metrics[1].averageWaitingTime},
+        {"RR  ", scheduler.metrics[2].averageWaitingTime}
+    };
+    
+    std::vector<std::pair<std::string, double>> turnaroundData = {
+        {"FCFS", scheduler.metrics[0].averageTurnaroundTime},
+        {"SJF ", scheduler.metrics[1].averageTurnaroundTime},
+        {"RR  ", scheduler.metrics[2].averageTurnaroundTime}
+    };
+    
+    std::vector<std::pair<std::string, double>> throughputData = {
+        {"FCFS", scheduler.metrics[0].throughput},
+        {"SJF ", scheduler.metrics[1].throughput},
+        {"RR  ", scheduler.metrics[2].throughput}
+    };
+    
+    plotAsciiBar("Tempo Médio de Espera", waitData);
+    plotAsciiBar("Tempo Médio de Retorno", turnaroundData);
+    plotAsciiBar("Vazão (Throughput)", throughputData);
 
     return 0;
 }

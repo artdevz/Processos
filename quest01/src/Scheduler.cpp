@@ -49,12 +49,13 @@ void Scheduler::firstComeFirstServe() {
         std::cout << "[" << time << "]: Processo " << p.pid << " chegou em Tempo " << p.arrivalTime << " com Burst de " << p.burstTime << std::endl;
         waitingTime += time - p.arrivalTime;
         time += p.burstTime;
-        turnaroundTime += time - p.arrivalTime;
         std::cout << "[" << time << "]: Processo " << p.pid << " finalizou!\n";
+        turnaroundTime += time - p.arrivalTime;
         if (time <= throughputTime) throughput++;
         time += contextSwitches;
     }
 
+    std::cout << "\nMétricas: " << std::endl;
     std::cout << "ProcessesCount: " << processesCount << std::endl;
     std::cout << "Total Waiting Time: " << waitingTime << std::endl;
     std::cout << "Average Waiting Time: " << (double) waitingTime / processesCount << std::endl;
@@ -112,7 +113,8 @@ void Scheduler::shortestJobFirst() {
 }
 
 void Scheduler::roundRobin() {
-    int time = 0;
+    int time = 0, waitingTime = 0, turnaroundTime = 0, throughput = 0, throughputTime = 100, processesCount = 0;
+    processesCount = processes.size();
 
     while (!processes.empty()) {
         auto&p = processes.front();
@@ -120,11 +122,14 @@ void Scheduler::roundRobin() {
         if (time < p.arrivalTime) time = p.arrivalTime;
 
         std::cout << "[" << time << "]: Processo " << p.pid << " chegou em Tempo " << p.arrivalTime << " com Burst de " << p.burstTime << " e resta " << p.remainingTime << std::endl;
+        waitingTime += time - p.arrivalTime - (p.burstTime - p.remainingTime); // (Burst - Remaining): Para não contabilizar no tempo de espera um tempo que estava sendo executado
         p.remainingTime -= quantum;
 
         if (p.remainingTime <= 0) {
             time += quantum + p.remainingTime;
             std::cout << "[" << time << "]: Processo " << p.pid << " finalizou!\n";
+            turnaroundTime += time - p.arrivalTime;
+            if (time <= throughputTime) throughput++;
             processes.erase(processes.begin());
             time += contextSwitches;
             continue;
@@ -138,7 +143,21 @@ void Scheduler::roundRobin() {
         time += contextSwitches;
     }
 
+    std::cout << "\nMétricas: " << std::endl;
+    std::cout << "ProcessesCount: " << processesCount << std::endl;
+    std::cout << "Total Waiting Time: " << waitingTime << std::endl;
+    std::cout << "Average Waiting Time: " << (double) waitingTime / processesCount << std::endl;
+    std::cout << "Total Turnaround Time: " << turnaroundTime << std::endl;
+    std::cout << "Average Turnaround Time: " << turnaroundTime / processesCount << std::endl;
+    std::cout << "Throughput: " << throughput << std::endl;
+
     std::cout << "Todos os processos foram executados!\n";
+
+    SchedulingMetrics sm;
+    sm.averageWaitingTime = (double) waitingTime / processesCount;
+    sm.averageTurnaroundTime = (double) turnaroundTime / processesCount;
+    sm.throughput = (double) throughput;
+    metrics.push_back(sm);
 }
 
 void Scheduler::printQueue(const std::queue<Process>& q) {

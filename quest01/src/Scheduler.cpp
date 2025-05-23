@@ -40,18 +40,35 @@ void Scheduler::run(int algorithm) {
 }
 
 void Scheduler::firstComeFirstServe() {
-    int time = 0;
+    int time = 0, waitingTime = 0, turnaroundTime = 0, throughput = 0, throughputTime = 100, processesCount = 0;
+    processesCount = processes.size();
 
     for (auto& p : processes) {
         if (time < p.arrivalTime) time = p.arrivalTime;
 
         std::cout << "[" << time << "]: Processo " << p.pid << " chegou em Tempo " << p.arrivalTime << " com Burst de " << p.burstTime << std::endl;
+        waitingTime += time - p.arrivalTime;
         time += p.burstTime;
+        turnaroundTime += time - p.arrivalTime;
         std::cout << "[" << time << "]: Processo " << p.pid << " finalizou!\n";
+        if (time <= throughputTime) throughput++;
         time += contextSwitches;
     }
 
+    std::cout << "ProcessesCount: " << processesCount << std::endl;
+    std::cout << "Total Waiting Time: " << waitingTime << std::endl;
+    std::cout << "Average Waiting Time: " << (double) waitingTime / processesCount << std::endl;
+    std::cout << "Total Turnaround Time: " << turnaroundTime << std::endl;
+    std::cout << "Average Turnaround Time: " << turnaroundTime / processesCount << std::endl;
+    std::cout << "Throughput: " << throughput << std::endl;
+
     std::cout << "Todos os processos foram executados!\n";
+
+    SchedulingMetrics sm;
+    sm.averageWaitingTime = (double) waitingTime / processesCount;
+    sm.averageTurnaroundTime = (double) turnaroundTime / processesCount;
+    sm.throughput = (double) throughput;
+    metrics.push_back(sm);
 }
 
 void Scheduler::shortestJobFirst() {

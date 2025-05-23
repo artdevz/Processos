@@ -103,11 +103,11 @@ void Scheduler::shortestJobFirst() {
                   << " chegou em Tempo " << processes[indice].arrivalTime
                   << " com Burst de " << processes[indice].burstTime << " \n";
         waitingTime += current_time - processes[indice].arrivalTime;
-        std::cout << "Waiting Time: " << waitingTime << std::endl;
+        // std::cout << "Waiting Time: " << waitingTime << std::endl;
         std::cout << "[" << (current_time + processes[indice].burstTime) << "]: Processo " << processes[indice].pid
                   << " finalizou.\n";
         turnaroundTime += current_time - processes[indice].arrivalTime + processes[indice].burstTime;
-        std::cout << "Turnaround Time: " << turnaroundTime << std::endl;
+        // std::cout << "Turnaround Time: " << turnaroundTime << std::endl;
         
         current_time += processes[indice].burstTime;
         if (current_time <= throughputTime) throughput++;

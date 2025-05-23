@@ -12,6 +12,13 @@ struct Process {
     int remainingTime; // RR
     bool done;
 };
+
+struct SchedulingMetrics {
+    double averageWaitingTime;      // Tempo Médio de Espera
+    double averageTurnaroundTime;   // Tempo Médio de Retorno
+    double throughput;              // Vazão
+};
+
 class Scheduler {
 
 public:
@@ -23,6 +30,7 @@ private:
     int quantum;
     int contextSwitches = 1;
     std::vector<Process> processes;
+    std::vector<SchedulingMetrics> metrics;
     void firstComeFirstServe();
     void shortestJobFirst();
     void roundRobin();

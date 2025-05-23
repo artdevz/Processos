@@ -75,7 +75,8 @@ void Scheduler::firstComeFirstServe() {
 void Scheduler::shortestJobFirst() {
     int n = processes.size();
     int completed = 0;
-    int current_time = 0;
+    int current_time = 0, waitingTime = 0, turnaroundTime = 0, throughput = 0, throughputTime = 100, processesCount = 0;
+    processesCount = n;
     std::vector<bool> done(n, false);
 
     while (completed < n) {
@@ -101,15 +102,35 @@ void Scheduler::shortestJobFirst() {
         std::cout << "[" << current_time << "]: Processo " << processes[indice].pid
                   << " chegou em Tempo " << processes[indice].arrivalTime
                   << " com Burst de " << processes[indice].burstTime << " \n";
+        waitingTime += current_time - processes[indice].arrivalTime;
+        std::cout << "Waiting Time: " << waitingTime << std::endl;
         std::cout << "[" << (current_time + processes[indice].burstTime) << "]: Processo " << processes[indice].pid
                   << " finalizou.\n";
-
-        current_time += processes[indice].burstTime + contextSwitches;
+        turnaroundTime += current_time - processes[indice].arrivalTime + processes[indice].burstTime;
+        std::cout << "Turnaround Time: " << turnaroundTime << std::endl;
+        
+        current_time += processes[indice].burstTime;
+        if (current_time <= throughputTime) throughput++;
+        current_time += contextSwitches;
         done[indice] = true;
         completed++;
     }
 
+    std::cout << "\nMétricas: " << std::endl;
+    std::cout << "ProcessesCount: " << processesCount << std::endl;
+    std::cout << "Total Waiting Time: " << waitingTime << std::endl;
+    std::cout << "Average Waiting Time: " << (double) waitingTime / processesCount << std::endl;
+    std::cout << "Total Turnaround Time: " << turnaroundTime << std::endl;
+    std::cout << "Average Turnaround Time: " << turnaroundTime / processesCount << std::endl;
+    std::cout << "Throughput: " << throughput << std::endl;
+
     std::cout << "Todos os processos foram executados!\n";
+
+    SchedulingMetrics sm;
+    sm.averageWaitingTime = (double) waitingTime / processesCount;
+    sm.averageTurnaroundTime = (double) turnaroundTime / processesCount;
+    sm.throughput = (double) throughput;
+    metrics.push_back(sm);
 }
 
 void Scheduler::roundRobin() {

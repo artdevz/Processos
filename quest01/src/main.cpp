@@ -34,10 +34,10 @@ int main(int argc, char* argv[]) {
     int T4 = distT4(gen);
 
     // PID, Burst Time, Arrival Time
-    scheduler.addProcess(100, T1, 0); 
-    scheduler.addProcess(200, T2, 30);
-    scheduler.addProcess(300, T3, 20);
-    scheduler.addProcess(400, T4, 25);
+    scheduler.addProcess(1000, T1, 0); 
+    scheduler.addProcess(2000, T2, 20);
+    scheduler.addProcess(3000, T3, 10);
+    scheduler.addProcess(4000, T4, 15);
 
     scheduler.run(1);
     scheduler.run(2);

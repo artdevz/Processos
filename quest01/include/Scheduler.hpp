@@ -34,7 +34,6 @@ private:
     void firstComeFirstServe();
     void shortestJobFirst();
     void roundRobin();
-    void printQueue(const std::queue<Process>& q);
 
 };
 

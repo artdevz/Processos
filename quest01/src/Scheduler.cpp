@@ -55,13 +55,13 @@ void Scheduler::firstComeFirstServe() {
         time += contextSwitches;
     }
 
-    std::cout << "\nMétricas: " << std::endl;
-    std::cout << "ProcessesCount: " << processesCount << std::endl;
-    std::cout << "Total Waiting Time: " << waitingTime << std::endl;
-    std::cout << "Average Waiting Time: " << (double) waitingTime / processesCount << std::endl;
-    std::cout << "Total Turnaround Time: " << turnaroundTime << std::endl;
-    std::cout << "Average Turnaround Time: " << turnaroundTime / processesCount << std::endl;
-    std::cout << "Throughput: " << throughput << std::endl;
+    // std::cout << "\nMétricas: " << std::endl;
+    // std::cout << "ProcessesCount: " << processesCount << std::endl;
+    // std::cout << "Total Waiting Time: " << waitingTime << std::endl;
+    // std::cout << "Average Waiting Time: " << (double) waitingTime / processesCount << std::endl;
+    // std::cout << "Total Turnaround Time: " << turnaroundTime << std::endl;
+    // std::cout << "Average Turnaround Time: " << turnaroundTime / processesCount << std::endl;
+    // std::cout << "Throughput: " << throughput << std::endl;
 
     std::cout << "Todos os processos foram executados!\n";
 
@@ -116,13 +116,13 @@ void Scheduler::shortestJobFirst() {
         completed++;
     }
 
-    std::cout << "\nMétricas: " << std::endl;
-    std::cout << "ProcessesCount: " << processesCount << std::endl;
-    std::cout << "Total Waiting Time: " << waitingTime << std::endl;
-    std::cout << "Average Waiting Time: " << (double) waitingTime / processesCount << std::endl;
-    std::cout << "Total Turnaround Time: " << turnaroundTime << std::endl;
-    std::cout << "Average Turnaround Time: " << turnaroundTime / processesCount << std::endl;
-    std::cout << "Throughput: " << throughput << std::endl;
+    // std::cout << "\nMétricas: " << std::endl;
+    // std::cout << "ProcessesCount: " << processesCount << std::endl;
+    // std::cout << "Total Waiting Time: " << waitingTime << std::endl;
+    // std::cout << "Average Waiting Time: " << (double) waitingTime / processesCount << std::endl;
+    // std::cout << "Total Turnaround Time: " << turnaroundTime << std::endl;
+    // std::cout << "Average Turnaround Time: " << turnaroundTime / processesCount << std::endl;
+    // std::cout << "Throughput: " << throughput << std::endl;
 
     std::cout << "Todos os processos foram executados!\n";
 
@@ -164,13 +164,13 @@ void Scheduler::roundRobin() {
         time += contextSwitches;
     }
 
-    std::cout << "\nMétricas: " << std::endl;
-    std::cout << "ProcessesCount: " << processesCount << std::endl;
-    std::cout << "Total Waiting Time: " << waitingTime << std::endl;
-    std::cout << "Average Waiting Time: " << (double) waitingTime / processesCount << std::endl;
-    std::cout << "Total Turnaround Time: " << turnaroundTime << std::endl;
-    std::cout << "Average Turnaround Time: " << turnaroundTime / processesCount << std::endl;
-    std::cout << "Throughput: " << throughput << std::endl;
+    // std::cout << "\nMétricas: " << std::endl;
+    // std::cout << "ProcessesCount: " << processesCount << std::endl;
+    // std::cout << "Total Waiting Time: " << waitingTime << std::endl;
+    // std::cout << "Average Waiting Time: " << (double) waitingTime / processesCount << std::endl;
+    // std::cout << "Total Turnaround Time: " << turnaroundTime << std::endl;
+    // std::cout << "Average Turnaround Time: " << turnaroundTime / processesCount << std::endl;
+    // std::cout << "Throughput: " << throughput << std::endl;
 
     std::cout << "Todos os processos foram executados!\n";
 
@@ -179,8 +179,4 @@ void Scheduler::roundRobin() {
     sm.averageTurnaroundTime = (double) turnaroundTime / processesCount;
     sm.throughput = (double) throughput;
     metrics.push_back(sm);
-}
-
-void Scheduler::printQueue(const std::queue<Process>& q) {
-    std::cout << "[Fila de processos]\n";
 }

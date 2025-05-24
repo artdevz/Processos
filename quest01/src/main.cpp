@@ -22,6 +22,11 @@ int main(int argc, char* argv[]) {
     }
 
     int quantum = std::atoi(argv[1]);
+    if (quantum <= 0) {
+        std::cerr << "Invalid Args: <quantum> NÃO pode ser menor que 1\n";
+        return 2;
+    }
+
     std::cout << "Questão 1 (C++)!" << std::endl;
     
     Scheduler scheduler(quantum); 

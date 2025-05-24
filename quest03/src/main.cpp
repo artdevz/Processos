@@ -29,7 +29,7 @@ public:
             dogCond.wait(lock);
         }
         dogs_in_room++;
-        std::cout << "Cachorro " << id << " entrou.\n";  // mensagem antes do update
+        std::cout << "Cachorro " << id << " entrou.\n";  
         updateSign();
     }
 
@@ -39,7 +39,7 @@ public:
             catCond.wait(lock);
         }
         casts_in_room++;
-        std::cout << "Gato " << id << " entrou.\n";  // mensagem antes do update
+        std::cout << "Gato " << id << " entrou.\n";  
         updateSign();
     }
 

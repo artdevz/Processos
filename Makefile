@@ -11,7 +11,7 @@ Q3_INC = quest03/include
 
 # Arquivos fonte
 Q1_SRC = quest01/src/main.cpp quest01/src/Scheduler.cpp
-Q2_SRC = quest02/src/main.c
+Q2_SRC = quest02/src/main.cpp
 Q3_SRC = quest03/src/main.cpp
 
 # Objetos com nomes distintos
@@ -45,14 +45,14 @@ $(OBJ_DIR)/Scheduler.o: quest01/src/Scheduler.cpp
 	@mkdir -p $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Compila Questão 2 (C)
+# Compila Questão 2 (C++)
 $(Q2_EXE): $(Q2_OBJ)
 	@mkdir -p $(BIN_DIR)
-	$(CC) $(CFLAGS) $(Q2_OBJ) -o $@
+	$(CXX) $(CXXFLAGS) $(Q2_OBJ) -o $@
 
 $(Q2_OBJ): $(Q2_SRC)
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Compila Questão 3 (C++)
 $(Q3_EXE): $(Q3_OBJ)

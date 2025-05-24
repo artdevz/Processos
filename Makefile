@@ -1,5 +1,4 @@
-# Compiladores
-CC = gcc
+# Compilador
 CXX = g++
 
 # Diretórios
@@ -24,15 +23,14 @@ Q1_EXE = $(BIN_DIR)/quest01
 Q2_EXE = $(BIN_DIR)/quest02
 Q3_EXE = $(BIN_DIR)/quest03
 
-# Flags
-CFLAGS = -Wall -Wextra -pthread
+# Flag
 CXXFLAGS = -Wall -Wextra -std=c++17 -I$(Q1_INC) -I$(Q3_INC)
 
 .PHONY: all clean
 
 all: $(Q1_EXE) $(Q2_EXE) $(Q3_EXE)
 
-# Compila Questão 1 (C++)
+# Compila Questão 1 
 $(Q1_EXE): $(Q1_OBJ)
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $(Q1_OBJ) -o $@
@@ -45,7 +43,7 @@ $(OBJ_DIR)/Scheduler.o: quest01/src/Scheduler.cpp
 	@mkdir -p $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Compila Questão 2 (C++)
+# Compila Questão 2 
 $(Q2_EXE): $(Q2_OBJ)
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $(Q2_OBJ) -o $@
@@ -54,7 +52,7 @@ $(Q2_OBJ): $(Q2_SRC)
 	@mkdir -p $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Compila Questão 3 (C++)
+# Compila Questão 3 
 $(Q3_EXE): $(Q3_OBJ)
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $(Q3_OBJ) -o $@
